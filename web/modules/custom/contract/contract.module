@@ -1,0 +1,15 @@
+<?php
+
+/**
+ * Implements hook_theme().
+ */
+function contract_theme($existing, $type, $theme, $path) {
+    return [
+      'contract_data' => [
+        'variables' => [
+          'contract_details' => NULL
+          ],
+          'template' => 'contract-data',
+      ],
+    ];
+  }

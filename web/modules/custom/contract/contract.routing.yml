@@ -1,0 +1,15 @@
+contract.form:
+  path: '/contract/form'
+  defaults:
+    _form: '\Drupal\contract\Form\ContractForm'
+    _title: 'Submit a Contract Form'
+  requirements:
+    _permission: 'access content'
+
+contract.confirmation:
+  path: '/contract/confirmation'
+  defaults:
+    _controller: '\Drupal\contract\Controller\ContractController::confirmationPage'
+    _title: 'Confirmation'
+  requirements:
+    _permission: 'access content'

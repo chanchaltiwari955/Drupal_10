@@ -1,0 +1,97 @@
+<?php
+
+use Drupal\Core\Entity\EntityTypeManager;
+use Drupal\node\Entity\NodeType;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * @file
+ * Implements hook_install().
+ * 
+**/
+function contract_install() {
+  // Create contract content type
+  $content_type =  \Drupal\node\Entity\NodeType::create([
+    'type' => 'contract',    
+    'name' => 'Contract',
+    'description' => 'A content type for contracts.',
+  ]);
+  // Create the content type using the node type service.
+  $content_type->save();
+
+  $fields = [
+    'field_body' => [
+      'field_type' => 'text_long',
+      'label' => 'Body',
+      'description' => 'Description body field.',
+      'status' => TRUE,
+    ],
+    'field_document_title' => [
+      'field_type' => 'text',
+      'label' => 'Document Title',
+      'status' => TRUE,
+    ],
+    'field_recipient_name' => [
+      'field_type' => 'text',
+      'label' => 'Recipient Name',
+      'status' => TRUE,
+    ],
+    'field_sender_name' => [
+      'field_type' => 'text',
+      'label' => 'Sender Name',
+      'status' => TRUE,
+    ],
+    'field_contract_date' => [
+      'field_type' => 'datetime',
+      'label' => 'Contract Date',
+      'status' => TRUE,
+    ],
+    'field_document_file' => [
+      'field_type' => 'file',
+      'label' => 'Document File',
+      'status' => TRUE,
+    ],
+  ];
+  foreach ($fields as $field_name => $field_info) {
+    FieldStorageConfig::create([
+      'field_name'=> $field_name,
+      'entity_type' => 'node',
+      'type' => $field_info['field_type'],
+      'settings' => [],
+    ])->save();
+
+    FieldConfig::create([
+      'field_name' => $field_name,
+      'entity_type' => 'node',
+      'bundle' => 'contract',
+      'label' => $field_info['label'],
+      'required' => FALSE,
+      'settings' => [],
+      'cardinality' => 1
+    ])->save();
+
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function contract_uninstall() {
+  $content_type_storage = \Drupal::entityTypeManager()->getStorage('node_type');
+  $content_type = $content_type_storage->load('contract');
+  if ($content_type) {
+    $content_type->delete();
+  }
+
+  // Delete the field configurations.
+  $field_storage_configs = \Drupal::entityTypeManager()->getStorage('field_storage_config')->loadMultiple();
+  foreach ($field_storage_configs as $field_storage_config) {
+    $field_storage_config->delete();
+  }
+
+  $field_configs = \Drupal::entityTypeManager()->getStorage('field_config')->loadMultiple();
+  foreach ($field_configs as $field_config) {
+    $field_config->delete();
+  }
+}

@@ -1,0 +1,22 @@
+<table>
+  <tr>
+    <th>Title</th>
+    <th>Body</th>
+    <th>Document title</th>
+    <th>Recipient name</th>
+    <th>Sender name</th>
+    <th>Contract date</th>
+    <th>Document file</th>    
+  </tr>
+  {% for contract in contract_details %}
+  <tr>
+    <td>{{ contract.title }}</td>
+    <td>{{ contract.body }}</td>    
+    <td>{{ contract.document_title }}</td>
+    <td>{{ contract.recipient_name }}</td>
+    <td>{{ contract.sender_name }}</td>
+    <td>{{ contract.contract_date|date("d F Y") }}</td>
+    <td>{{ contract.file }}</td>
+  </tr>
+  {% endfor %}
+</table>

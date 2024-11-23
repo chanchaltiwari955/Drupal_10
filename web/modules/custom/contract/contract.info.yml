@@ -1,0 +1,8 @@
+name: 'Contract'
+type: 'module'
+description: 'Contract'
+core_version_requirement: ^10
+package: Custom
+dependencies:
+  - drupal:node
+  - drupal:block

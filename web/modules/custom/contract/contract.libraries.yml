@@ -1,0 +1,4 @@
+contract-libraries:
+  css:
+    theme:
+      css/style.css: {}
